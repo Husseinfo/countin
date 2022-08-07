@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Countin</string>
+    <string name="add_item">Add item</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="dismiss">Dismiss</string>
+</resources>
