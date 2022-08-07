@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:orientation="vertical"
+    android:id="@+id/layout"
     tools:context=".AddItemActivity">
 
     <EditText

@@ -6,6 +6,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Calendar;
 
 public class AddItemActivity extends AppCompatActivity {
@@ -29,6 +32,10 @@ public class AddItemActivity extends AppCompatActivity {
         findViewById(R.id.btn_dismiss).setOnClickListener(v -> this.finish());
         findViewById(R.id.btn_save).setOnClickListener(v -> {
             String title = ((EditText) findViewById(R.id.et_new_item_title)).getText().toString();
+            if (title.isEmpty()) {
+                Snackbar.make(findViewById(R.id.layout), R.string.error_empty_title, BaseTransientBottomBar.LENGTH_SHORT).show();
+                return;
+            }
             CountModel model = new CountModel(title, date);
             Storage.saveItem(AddItemActivity.this, model, false);
             finish();
