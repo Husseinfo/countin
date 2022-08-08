@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_timeline_24.xml" value="0.298" />
         <entry key="app/src/main/res/layout/activity_add_item.xml" value="0.3338541666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_count_item.xml" value="0.3338541666666667" />
