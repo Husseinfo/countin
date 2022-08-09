@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         this.countsRecyclerView = findViewById(R.id.counts);
         this.countsListAdapter = new CountsListAdapter();
         this.countsRecyclerView.setAdapter(this.countsListAdapter);
-        this.countsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        this.countsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         this.countsRecyclerView.setHasFixedSize(false);
     }
 
