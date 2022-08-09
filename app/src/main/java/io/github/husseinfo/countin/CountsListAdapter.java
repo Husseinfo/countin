@@ -22,12 +22,17 @@ public class CountsListAdapter extends RecyclerView.Adapter<CountsListAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView count;
-
+        public TextView title;
+        public TextView years;
+        public TextView months;
+        public TextView days;
 
         public ViewHolder(View v) {
             super(v);
-            count = v.findViewById(R.id.count);
+            title = v.findViewById(R.id.tv_title);
+            years = v.findViewById(R.id.tv_years);
+            months = v.findViewById(R.id.tv_months);
+            days = v.findViewById(R.id.tv_days);
         }
     }
 
@@ -40,7 +45,11 @@ public class CountsListAdapter extends RecyclerView.Adapter<CountsListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
-        h.count.setText(items.get(pos));
+        CountModel c = CountModel.load(items.get(pos));
+        h.title.setText(c.getTitle());
+        h.years.setText(c.getYears());
+        h.months.setText(c.getMonths());
+        h.days.setText(c.getDays());
     }
 
     @Override
