@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
+import io.github.husseinfo.countin.data.CountModel;
 
 public class CountsListAdapter extends RecyclerView.Adapter<CountsListAdapter.ViewHolder> {
 
-    private final List<String> items;
+    private final List<CountModel> items;
 
     public CountsListAdapter() {
         this.items = new ArrayList<>();
@@ -45,8 +46,8 @@ public class CountsListAdapter extends RecyclerView.Adapter<CountsListAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
-        CountModel c = CountModel.load(items.get(pos));
-        h.title.setText(c.getTitle());
+        CountModel c = items.get(pos);
+        h.title.setText(c.title);
         h.years.setText(c.getYears());
         h.months.setText(c.getMonths());
         h.days.setText(c.getDays());
@@ -57,7 +58,7 @@ public class CountsListAdapter extends RecyclerView.Adapter<CountsListAdapter.Vi
         return this.items.size();
     }
 
-    public void update(Set<String> items) {
+    public void update(List<CountModel> items) {
         this.items.clear();
         this.items.addAll(items);
         notifyDataSetChanged();

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.github.husseinfo.countin.data.AppDatabase;
+
 public class MainActivity extends Activity {
     private RecyclerView countsRecyclerView;
     private CountsListAdapter countsListAdapter;
@@ -28,6 +30,6 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.countsListAdapter.update(Storage.getItems(this));
+        this.countsListAdapter.update(AppDatabase.getDb(this).countDAO().getAll());
     }
 }

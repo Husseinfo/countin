@@ -11,6 +11,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
+import io.github.husseinfo.countin.data.AppDatabase;
+import io.github.husseinfo.countin.data.CountModel;
+
 public class AddItemActivity extends AppCompatActivity {
 
     private String date;
@@ -37,7 +40,7 @@ public class AddItemActivity extends AppCompatActivity {
                 return;
             }
             CountModel model = new CountModel(title, date);
-            Storage.saveItem(AddItemActivity.this, model, false);
+            AppDatabase.getDb(this).countDAO().insertAll(model);
             finish();
         });
     }

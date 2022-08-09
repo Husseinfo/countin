@@ -1,30 +1,26 @@
-package io.github.husseinfo.countin;
+package io.github.husseinfo.countin.data;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "count")
 public class CountModel {
 
-    private String title;
-    private String date;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    public int id;
 
-    public CountModel() {
-    }
+    @ColumnInfo(name = "title")
+    public String title;
+
+    @ColumnInfo(name = "date")
+    public String date;
 
     public CountModel(String title, String date) {
         this.title = title;
         this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public static CountModel load(String s) {
-        return new CountModel(s.split(";")[1], s.split(";")[0]);
     }
 
     public String getYears() {

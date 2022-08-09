@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.github.husseinfo.countin.data.CountModel;
+
 public class Storage {
     public static void saveItem(Context context, CountModel model, boolean delete) {
         SharedPreferences sharedPref = context.getSharedPreferences(
