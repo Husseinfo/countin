@@ -22,14 +22,17 @@ class AddItemActivity : AppCompatActivity() {
         val currentYear = c[Calendar.YEAR]
         val currentMonth = c[Calendar.MONTH]
         val currentDay = c[Calendar.DAY_OF_MONTH]
+        date = "${currentDay}_${currentMonth}_$currentDay"
         datePicker.init(
             currentYear,
             currentMonth,
             currentDay
         ) { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-            date = year.toString() + "_" + monthOfYear + "_" + dayOfMonth
+            date = "${year}_${monthOfYear}_$dayOfMonth"
         }
+
         findViewById<View>(R.id.btn_dismiss).setOnClickListener { finish() }
+
         findViewById<View>(R.id.btn_save).setOnClickListener {
             val title = (findViewById<View>(R.id.et_new_item_title) as EditText).text.toString()
             if (title.isEmpty()) {
