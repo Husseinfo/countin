@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Countin"
         tools:targetApi="31">
         <activity
-            android:name="io.github.husseinfo.countin.AddItemActivity"
+            android:name=".AddItemActivity"
             android:exported="false" />
         <activity
-            android:name="io.github.husseinfo.countin.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
