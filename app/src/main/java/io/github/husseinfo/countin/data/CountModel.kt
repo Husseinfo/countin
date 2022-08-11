@@ -3,7 +3,7 @@ package io.github.husseinfo.countin.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import java.time.*
 
 @Entity(tableName = "count")
 class CountModel(
@@ -15,21 +15,24 @@ class CountModel(
     @ColumnInfo(name = "id")
     var id = 0
 
-    val years: Long
-        get() = getDiff() / 1000 / 60 / 60 / 24 / 30 / 12
+    val years: Int
+        get() = getDiff().years
 
-    val months: Long
-        get() = (getDiff() / 1000 / 60 / 60 / 24 / 30) % 12
+    val months: Int
+        get() = getDiff().months
 
-    val days: Long
-        get() = (getDiff() / 1000 / 60 / 60 / 24) % 30
+    val days: Int
+        get() = getDiff().days
 
 
     override fun toString(): String {
         return "$date;$title"
     }
 
-    private fun getDiff(): Long {
-        return Calendar.getInstance().time.time - date
+    private fun getDiff(): Period {
+        return Period.between(
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneOffset.UTC).toLocalDate(),
+            LocalDate.now(ZoneOffset.UTC)
+        )
     }
 }
