@@ -43,9 +43,9 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         return items.size
     }
 
-    fun update(items: List<CountModel>?) {
+    fun update(items: List<CountModel>) {
         this.items.clear()
-        this.items.addAll(items!!)
+        this.items.addAll(items)
         notifyDataSetChanged()
     }
 }

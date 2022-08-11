@@ -9,6 +9,9 @@ import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class AddItemActivity : AppCompatActivity() {
@@ -44,7 +47,9 @@ class AddItemActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val model = CountModel(title, date)
-            AppDatabase.getDb(this)!!.countDAO()!!.insertAll(model)
+            MainScope().launch(Dispatchers.IO) {
+                AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
+            }
             finish()
         }
     }

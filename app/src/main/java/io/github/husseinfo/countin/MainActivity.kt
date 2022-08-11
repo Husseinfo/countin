@@ -7,8 +7,9 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.husseinfo.countin.data.AppDatabase
+import kotlinx.coroutines.*
 
-class MainActivity : Activity() {
+class MainActivity : Activity(), CoroutineScope by MainScope() {
     private lateinit var countsRecyclerView: RecyclerView
     private lateinit var countsListAdapter: CountsListAdapter
 
@@ -36,6 +37,13 @@ class MainActivity : Activity() {
 
     override fun onResume() {
         super.onResume()
-        countsListAdapter.update(AppDatabase.getDb(this)!!.countDAO()?.all)
+
+        val items = async(Dispatchers.IO) {
+            AppDatabase.getDb(baseContext)!!.countDAO()?.all!!
+        }
+
+        launch(Dispatchers.Main) {
+            countsListAdapter.update(items.await())
+        }
     }
 }
