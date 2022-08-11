@@ -12,10 +12,8 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         private var db: AppDatabase? = null
         fun getDb(context: Context): AppDatabase? {
-            if (db == null) Room.databaseBuilder(
-                context, AppDatabase::class.java, "db.sqlite"
-            )
-                .allowMainThreadQueries().build().also { db = it }
+            if (db == null)
+                db = Room.databaseBuilder(context, AppDatabase::class.java, "db.sqlite").build()
             return db
         }
     }

@@ -11,6 +11,7 @@ import io.github.husseinfo.countin.data.AppDatabase
 class MainActivity : Activity() {
     private lateinit var countsRecyclerView: RecyclerView
     private lateinit var countsListAdapter: CountsListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
