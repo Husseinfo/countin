@@ -16,12 +16,9 @@ class MainActivity : Activity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<View>(R.id.fab_add).setOnClickListener { v: View? ->
+        findViewById<View>(R.id.fab_add).setOnClickListener {
             startActivity(
-                Intent(
-                    this,
-                    AddItemActivity::class.java
-                )
+                Intent(this, AddItemActivity::class.java)
             )
         }
         countsRecyclerView = findViewById(R.id.counts)
