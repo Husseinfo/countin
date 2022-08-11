@@ -35,6 +35,7 @@ class AddItemActivity : AppCompatActivity() {
             calendar.set(year, monthOfYear, dayOfMonth)
             date = calendar.time.time
         }
+        datePicker.maxDate = date
 
         findViewById<View>(R.id.btn_dismiss).setOnClickListener { finish() }
 
