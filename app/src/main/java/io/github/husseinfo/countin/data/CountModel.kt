@@ -15,22 +15,21 @@ class CountModel(
     @ColumnInfo(name = "id")
     var id = 0
 
-    val years: String
-        get() {
-            return "0"
-        }
-    val months: String
-        get() = "2"
-    val days: String
-        get() = "3"
+    val years: Long
+        get() = getDiff() / 1000 / 60 / 60 / 24 / 30 / 12
+
+    val months: Long
+        get() = (getDiff() / 1000 / 60 / 60 / 24 / 30) % 12
+
+    val days: Long
+        get() = (getDiff() / 1000 / 60 / 60 / 24) % 30
+
 
     override fun toString(): String {
         return "$date;$title"
     }
 
-    fun getDiff() {
-        val now = Calendar.getInstance().time
-        val c = Calendar.getInstance()
-//        c.set(date.split("_")[0], date.split("_")[1], date.split("_")[2])
+    private fun getDiff(): Long {
+        return Calendar.getInstance().time.time - date
     }
 }

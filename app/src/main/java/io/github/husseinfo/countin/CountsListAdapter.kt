@@ -34,9 +34,9 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     override fun onBindViewHolder(h: ViewHolder, pos: Int) {
         val c = items[pos]
         h.title.text = c.title
-        h.years.text = c.years
-        h.months.text = c.months
-        h.days.text = c.days
+        h.years.text = c.years.toString()
+        h.months.text = c.months.toString()
+        h.days.text = c.days.toString()
     }
 
     override fun getItemCount(): Int {
