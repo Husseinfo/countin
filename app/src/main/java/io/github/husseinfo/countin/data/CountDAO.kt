@@ -7,7 +7,7 @@ import androidx.room.Query
 
 @Dao
 interface CountDAO {
-    @get:Query("SELECT * FROM count")
+    @get:Query("SELECT * FROM count ORDER BY date DESC")
     val all: List<CountModel>?
 
     @Query("SELECT * FROM count WHERE id = :id LIMIT 1")
