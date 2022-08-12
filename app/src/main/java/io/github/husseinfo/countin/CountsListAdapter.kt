@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import io.github.husseinfo.countin.data.CountModel
 
 class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
@@ -37,6 +38,13 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         h.years.text = c.years.toString()
         h.months.text = c.months.toString()
         h.days.text = c.days.toString()
+        h.itemView.setOnClickListener {
+            Snackbar.make(
+                h.itemView,
+                c.formatDate(),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        }
     }
 
     override fun getItemCount(): Int {

@@ -35,4 +35,9 @@ class CountModel(
             LocalDate.now(ZoneOffset.UTC)
         )
     }
+
+    fun formatDate(): String {
+        val d = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneOffset.UTC).toLocalDate()
+        return d.toString()
+    }
 }
