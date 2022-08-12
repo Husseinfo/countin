@@ -6,4 +6,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="error_empty_title">Title cannot be empty!</string>
     <string name="image">Image</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_delete">Are you sure you want to delete?</string>
 </resources>

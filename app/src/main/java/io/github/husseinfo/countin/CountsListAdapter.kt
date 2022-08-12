@@ -1,12 +1,18 @@
 package io.github.husseinfo.countin
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     private val items: MutableList<CountModel> = ArrayList()
@@ -44,6 +50,21 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                 c.formatDate(),
                 Snackbar.LENGTH_SHORT
             ).show()
+        }
+        h.itemView.setOnLongClickListener {
+            AlertDialog.Builder(h.itemView.context)
+                .setTitle(R.string.confirm_delete)
+                .setPositiveButton(R.string.delete) { _: DialogInterface?, _: Int ->
+
+                    MainScope().launch(Dispatchers.IO) {
+                        AppDatabase.getDb(h.itemView.context)?.countDAO()?.delete(c)
+                    }
+                    items.removeAt(pos)
+                    notifyItemRemoved(pos)
+                }
+                .setNegativeButton(R.string.dismiss) { _: DialogInterface?, _: Int -> }
+                .create().show()
+            true
         }
     }
 
