@@ -18,7 +18,9 @@
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:text="@string/title"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,12 +31,14 @@
             <TextView
                 android:id="@+id/tv_years"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Y"
+                android:textSize="18sp"
                 android:textStyle="italic"
                 tools:ignore="HardcodedText" />
 
@@ -42,12 +46,14 @@
                 android:id="@+id/tv_months"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp" />
+                android:layout_marginStart="5dp"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="M"
+                android:textSize="18sp"
                 android:textStyle="italic"
                 tools:ignore="HardcodedText" />
 
@@ -55,12 +61,14 @@
                 android:id="@+id/tv_days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp" />
+                android:layout_marginStart="5dp"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="D"
+                android:textSize="18sp"
                 android:textStyle="italic"
                 tools:ignore="HardcodedText" />
         </LinearLayout>
