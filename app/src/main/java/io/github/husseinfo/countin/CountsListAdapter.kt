@@ -61,6 +61,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                     }
                     items.removeAt(pos)
                     notifyItemRemoved(pos)
+                    notifyItemRangeChanged(pos, itemCount);
                 }
                 .setNegativeButton(R.string.dismiss) { _: DialogInterface?, _: Int -> }
                 .create().show()
