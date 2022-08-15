@@ -3,7 +3,9 @@ package io.github.husseinfo.countin.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import io.github.husseinfo.countin.printFormatted
 import java.time.*
+import java.util.*
 
 @Entity(tableName = "count")
 class CountModel(
@@ -36,8 +38,10 @@ class CountModel(
         )
     }
 
-    fun formatDate(): String {
-        val d = LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneOffset.UTC).toLocalDate()
-        return d.toString()
+    fun formatDate(): CharSequence {
+        val c = Calendar.getInstance()
+        c.time = Date.from(Instant.ofEpochMilli(date))
+        return c.printFormatted()
     }
 }
+
