@@ -17,11 +17,18 @@ class CountModel(
     @ColumnInfo(name = "id")
     var id = 0
 
-    fun getDiff(): Period {
+    fun dateDiff(): Period {
         return Period.between(
-            LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneOffset.UTC).toLocalDate(),
-            LocalDate.now(ZoneOffset.UTC)
+            LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(date),
+                ZoneOffset.systemDefault()
+            ).toLocalDate(),
+            LocalDate.now(ZoneOffset.systemDefault())
         )
+    }
+
+    fun milliDiff(): Long {
+        return Calendar.getInstance().time.time - date
     }
 
     fun formatDate(): CharSequence {

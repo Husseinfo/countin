@@ -23,12 +23,16 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         var years: TextView
         var months: TextView
         var days: TextView
+        var hours: TextView
+        var minutes: TextView
 
         init {
             title = v.findViewById(R.id.tv_title)
             years = v.findViewById(R.id.tv_years)
             months = v.findViewById(R.id.tv_months)
             days = v.findViewById(R.id.tv_days)
+            hours = v.findViewById(R.id.tv_hours)
+            minutes = v.findViewById(R.id.tv_minutes)
         }
     }
 
@@ -42,10 +46,17 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     override fun onBindViewHolder(h: ViewHolder, pos: Int) {
         val c = items[pos]
         h.title.text = c.title
-        val difference: Period = c.getDiff()
+        val difference: Period = c.dateDiff();
         h.years.text = difference.years.toString()
         h.months.text = difference.months.toString()
         h.days.text = difference.days.toString()
+
+        if (c.withTime) {
+            h.hours.text = (c.milliDiff() / 1000 / 3600 % 24).toString()
+            h.minutes.text = (c.milliDiff() / 1000 / 60 % 24).toString()
+            h.itemView.findViewById<View>(R.id.ll_time).visibility = View.VISIBLE
+        }
+
         h.itemView.setOnClickListener {
             Snackbar.make(
                 h.itemView,
@@ -53,6 +64,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                 Snackbar.LENGTH_SHORT
             ).show()
         }
+
         h.itemView.setOnLongClickListener {
             AlertDialog.Builder(h.itemView.context)
                 .setTitle(R.string.confirm_delete)
@@ -69,6 +81,11 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                 .create().show()
             true
         }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        holder.itemView.findViewById<View>(R.id.ll_time).visibility = View.GONE
     }
 
     override fun getItemCount(): Int {

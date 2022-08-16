@@ -25,6 +25,7 @@ import java.util.*
 
 class AddItemActivity : AppCompatActivity() {
     private var date: Long = 0L
+    private var time: Int = 0
     private lateinit var tvDate: TextView
     private lateinit var swTime: SwitchCompat
 
@@ -70,10 +71,7 @@ class AddItemActivity : AppCompatActivity() {
             val c = Calendar.getInstance().time
             TimePickerDialog(
                 this,
-                { _, hour, minute ->
-                    val millisToAdd = (hour * 3600 + minute * 60) * 1000
-                    date += millisToAdd
-                },
+                { _, hour, minute -> time = (hour * 3600 + minute * 60) * 1000 },
                 c.hours,
                 c.minutes,
                 true
@@ -92,6 +90,9 @@ class AddItemActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
+
+            if (swTime.isChecked)
+                date += time
             val model = CountModel(title, date, swTime.isChecked)
             MainScope().launch(Dispatchers.IO) {
                 AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
