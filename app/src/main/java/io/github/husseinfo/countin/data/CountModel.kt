@@ -9,9 +9,9 @@ import java.util.*
 
 @Entity(tableName = "count")
 class CountModel(
-    @field:ColumnInfo(name = "title") var title: String, @field:ColumnInfo(
-        name = "date"
-    ) var date: Long
+    @field:ColumnInfo(name = "title") var title: String,
+    @field:ColumnInfo(name = "date") var date: Long,
+    @field:ColumnInfo(name = "with_time") val withTime: Boolean
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -25,11 +25,6 @@ class CountModel(
 
     val days: Int
         get() = getDiff().days
-
-
-    override fun toString(): String {
-        return "$date;$title"
-    }
 
     private fun getDiff(): Period {
         return Period.between(

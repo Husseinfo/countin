@@ -70,7 +70,7 @@ class AddItemActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
-            val model = CountModel(title, date)
+            val model = CountModel(title, date, false)
             MainScope().launch(Dispatchers.IO) {
                 AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
             }
