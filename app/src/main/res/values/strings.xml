@@ -9,4 +9,5 @@
     <string name="delete">Delete</string>
     <string name="confirm_delete">Are you sure you want to delete?</string>
     <string name="date">Date</string>
+    <string name="with_time">With Time</string>
 </resources>
