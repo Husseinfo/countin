@@ -53,7 +53,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
 
         if (c.withTime) {
             h.hours.text = (c.milliDiff() / 1000 / 3600 % 24).toString()
-            h.minutes.text = (c.milliDiff() / 1000 / 60 % 24).toString()
+            h.minutes.text = (c.milliDiff() / 1000 / 60 % 60).toString()
             h.itemView.findViewById<View>(R.id.ll_time).visibility = View.VISIBLE
         }
 
