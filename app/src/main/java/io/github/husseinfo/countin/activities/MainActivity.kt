@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.husseinfo.countin.CountsListAdapter
 import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
+import io.github.husseinfo.countin.isFirstRun
 import kotlinx.coroutines.*
 
 class MainActivity : Activity(), CoroutineScope by MainScope() {
@@ -19,7 +20,7 @@ class MainActivity : Activity(), CoroutineScope by MainScope() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (true) {
+        if (!isFirstRun(this)) {
             startActivity(Intent(this, IntroActivity::class.java))
         }
 

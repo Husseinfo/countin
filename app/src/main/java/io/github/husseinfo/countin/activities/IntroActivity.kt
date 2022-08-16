@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro
 import com.github.appintro.AppIntroFragment
 import io.github.husseinfo.countin.R
+import io.github.husseinfo.countin.saveFirstRun
 
 class IntroActivity : AppIntro() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +42,7 @@ class IntroActivity : AppIntro() {
 
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
+        saveFirstRun(this)
         finish()
     }
 }
