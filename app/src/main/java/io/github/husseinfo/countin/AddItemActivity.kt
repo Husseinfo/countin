@@ -37,6 +37,9 @@ class AddItemActivity : AppCompatActivity() {
         swTime = findViewById(R.id.sw_time)
         Calendar.getInstance().also {
             tvDate.text = it.format()
+            it.set(Calendar.HOUR_OF_DAY, 0)
+            it.set(Calendar.MINUTE, 0)
+            it.set(Calendar.SECOND, 0)
             date = it.time.time
         }
 
@@ -54,7 +57,7 @@ class AddItemActivity : AppCompatActivity() {
                     currentDay
                 ) { _: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     val calendar = Calendar.getInstance()
-                    calendar.set(year, monthOfYear, dayOfMonth, 0, 0)
+                    calendar.set(year, monthOfYear, dayOfMonth, 0, 0, 0)
                     date = calendar.time.time
                     tvDate.text = calendar.format()
                     swTime.isChecked = false
