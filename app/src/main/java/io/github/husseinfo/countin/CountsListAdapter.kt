@@ -1,5 +1,6 @@
 package io.github.husseinfo.countin
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.view.LayoutInflater
@@ -43,6 +44,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(h: ViewHolder, pos: Int) {
         val c = items[pos]
         h.title.text = c.title
@@ -54,6 +56,8 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         if (c.withTime) {
             h.hours.text = (c.milliDiff() / 1000 / 3600 % 24).toString()
             h.minutes.text = (c.milliDiff() / 1000 / 60 % 60).toString()
+            if (h.minutes.text.length == 1)
+                h.minutes.text = "0" + h.minutes.text
             h.itemView.findViewById<View>(R.id.ll_time).visibility = View.VISIBLE
         }
 
