@@ -31,7 +31,7 @@ class AddItemActivity : AppCompatActivity() {
 
         tvDate = findViewById(R.id.tv_date)
         Calendar.getInstance().also {
-            tvDate.text = it.printFormatted()
+            tvDate.text = it.format()
             date = it.time.time
         }
 
@@ -51,7 +51,7 @@ class AddItemActivity : AppCompatActivity() {
                     val calendar = Calendar.getInstance()
                     calendar.set(year, monthOfYear, dayOfMonth)
                     date = calendar.time.time
-                    tvDate.text = calendar.printFormatted()
+                    tvDate.text = calendar.format()
                 }
                 it.datePicker.maxDate = Calendar.getInstance().time.time
                 it.show()
@@ -79,7 +79,7 @@ class AddItemActivity : AppCompatActivity() {
     }
 }
 
-fun Calendar.printFormatted(): CharSequence {
+fun Calendar.format(): CharSequence {
     return DateTimeFormatter.ofPattern("dd/MM/yyyy")
         .format(ZonedDateTime.ofInstant(toInstant(), ZoneId.systemDefault()))
 }
