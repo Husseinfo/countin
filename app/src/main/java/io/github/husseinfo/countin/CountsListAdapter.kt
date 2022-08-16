@@ -13,6 +13,7 @@ import io.github.husseinfo.countin.data.CountModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import java.time.Period
 
 class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     private val items: MutableList<CountModel> = ArrayList()
@@ -41,9 +42,10 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     override fun onBindViewHolder(h: ViewHolder, pos: Int) {
         val c = items[pos]
         h.title.text = c.title
-        h.years.text = c.years.toString()
-        h.months.text = c.months.toString()
-        h.days.text = c.days.toString()
+        val difference: Period = c.getDiff()
+        h.years.text = difference.years.toString()
+        h.months.text = difference.months.toString()
+        h.days.text = difference.days.toString()
         h.itemView.setOnClickListener {
             Snackbar.make(
                 h.itemView,
