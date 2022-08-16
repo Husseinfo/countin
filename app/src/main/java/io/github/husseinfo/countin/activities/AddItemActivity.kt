@@ -1,4 +1,4 @@
-package io.github.husseinfo.countin
+package io.github.husseinfo.countin.activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
 import kotlinx.coroutines.Dispatchers

@@ -3,7 +3,7 @@ package io.github.husseinfo.countin.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import io.github.husseinfo.countin.format
+import io.github.husseinfo.countin.activities.format
 import java.time.*
 import java.util.*
 

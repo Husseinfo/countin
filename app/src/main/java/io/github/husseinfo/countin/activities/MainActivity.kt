@@ -1,4 +1,4 @@
-package io.github.husseinfo.countin
+package io.github.husseinfo.countin.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.github.husseinfo.countin.CountsListAdapter
+import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import kotlinx.coroutines.*
 
@@ -16,6 +18,11 @@ class MainActivity : Activity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (true) {
+            startActivity(Intent(this, IntroActivity::class.java))
+        }
+
         findViewById<View>(R.id.fab_add).setOnClickListener {
             startActivity(
                 Intent(this, AddItemActivity::class.java)
