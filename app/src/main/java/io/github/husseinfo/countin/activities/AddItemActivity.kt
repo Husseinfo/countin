@@ -4,14 +4,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.DatePicker
-import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
@@ -27,8 +27,8 @@ import java.util.*
 class AddItemActivity : AppCompatActivity() {
     private var date: Long = 0L
     private var time: Int = 0
-    private lateinit var tvDate: TextView
-    private lateinit var swTime: SwitchCompat
+    private lateinit var tvDate: MaterialTextView
+    private lateinit var swTime: SwitchMaterial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,10 +82,10 @@ class AddItemActivity : AppCompatActivity() {
             ).show()
         }
 
-        findViewById<Button>(R.id.btn_dismiss).setOnClickListener { finish() }
+        findViewById<MaterialButton>(R.id.btn_dismiss).setOnClickListener { finish() }
 
-        findViewById<Button>(R.id.btn_save).setOnClickListener {
-            val title = (findViewById<View>(R.id.et_new_item_title) as EditText).text.toString()
+        findViewById<MaterialButton>(R.id.btn_save).setOnClickListener {
+            val title = (findViewById<View>(R.id.et_title) as TextInputEditText).text.toString()
             if (title.isEmpty()) {
                 Snackbar.make(
                     findViewById(R.id.layout),

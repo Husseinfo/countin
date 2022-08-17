@@ -9,18 +9,24 @@
     android:orientation="vertical"
     tools:context=".activities.AddItemActivity">
 
-    <EditText
-        android:id="@+id/et_new_item_title"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="Title"
         android:hint="@string/title"
-        android:inputType="textAutoCorrect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoCorrect" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,16 +36,16 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_new_item_title" />
+        app:layout_constraintTop_toBottomOf="@id/til_title" />
 
-    <androidx.appcompat.widget.SwitchCompat
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/sw_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -48,7 +54,7 @@
         app:layout_constraintStart_toEndOf="@id/sw_time"
         app:layout_constraintTop_toTopOf="@id/sw_time" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_dismiss"
         style="?android:attr/buttonBarNegativeButtonStyle"
         android:layout_width="wrap_content"
@@ -57,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="@id/btn_save"
         app:layout_constraintEnd_toStartOf="@+id/btn_save" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save"
         style="?android:attr/positiveButtonText"
         android:layout_width="wrap_content"
