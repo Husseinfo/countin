@@ -106,7 +106,7 @@ class AddItemActivity : AppCompatActivity() {
     }
 }
 
-fun Calendar.format(): CharSequence {
-    return DateTimeFormatter.ofPattern("dd/MM/yyyy")
+fun Calendar.format(time: Boolean = false): CharSequence {
+    return DateTimeFormatter.ofPattern(("dd/MM/yyyy" + (if (time) " hh:mm" else "")))
         .format(ZonedDateTime.ofInstant(toInstant(), ZoneId.systemDefault()))
 }

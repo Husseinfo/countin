@@ -34,6 +34,6 @@ class CountModel(
     fun formatDate(): CharSequence {
         val c = Calendar.getInstance()
         c.time = Date.from(Instant.ofEpochMilli(date))
-        return c.format()
+        return c.format(withTime)
     }
 }
