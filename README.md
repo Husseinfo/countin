@@ -15,6 +15,7 @@ An Android Application that remembers your life events.
 - [ ] Load more
 - [ ] Backup/Restore
 - [ ] Countdown items
+- [ ] Import from image
 
 ## Android Dev
 
