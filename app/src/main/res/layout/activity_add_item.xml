@@ -5,10 +5,20 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
     tools:context=".activities.AddItemActivity">
 
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.25"
+        android:contentDescription="@string/background"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btn_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sw_time" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_title"

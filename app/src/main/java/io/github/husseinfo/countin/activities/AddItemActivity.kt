@@ -3,11 +3,14 @@ package io.github.husseinfo.countin.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import android.widget.DatePicker
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
@@ -111,9 +114,17 @@ class AddItemActivity : AppCompatActivity() {
 
         if (intent?.action == Intent.ACTION_SEND) {
             try {
+                val uri = intent.parcelable<Parcelable>(Intent.EXTRA_STREAM) as Uri
+
+                val bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
+                findViewById<ImageView>(R.id.iv_background).also {
+                    it.setImageBitmap(bitmap)
+                    it.visibility = View.VISIBLE
+                }
+
                 DocumentFile.fromSingleUri(
                     this,
-                    (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)!!
+                    (intent.parcelable<Parcelable>(Intent.EXTRA_STREAM) as? Uri)!!
                 )?.lastModified()!!.also {
                     val c = Calendar.getInstance()
                     c.time = Date.from(Instant.ofEpochMilli(date))
@@ -125,6 +136,7 @@ class AddItemActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, "Unable to fetch date! [$e]", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
@@ -134,3 +146,9 @@ fun Calendar.format(time: Boolean = false): CharSequence {
     return DateTimeFormatter.ofPattern(("dd/MM/yyyy" + (if (time) " hh:mm" else "")))
         .format(ZonedDateTime.ofInstant(toInstant(), ZoneId.systemDefault()))
 }
+
+private inline fun <reified T> Intent.parcelable(key: String): T? =
+    if (Build.VERSION.SDK_INT >= 33)
+        getParcelableExtra(key, T::class.java)
+    else
+        @Suppress("DEPRECATION") getParcelableExtra(key) as? T

@@ -14,4 +14,5 @@
     <string name="intro_desc_1">An application that remembers your life events!</string>
     <string name="intro_title_2">Date/time</string>
     <string name="intro_desc_2">Add date and/or time bookmarks</string>
+    <string name="background">Background</string>
 </resources>
