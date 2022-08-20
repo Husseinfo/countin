@@ -1,20 +1,23 @@
 # countin
 
-An Android Application that remembers your life events.
-
 ![Android CI](https://github.com/Husseinfo/countin/actions/workflows/android.yml/badge.svg)
 
-![alt Demo](https://github.com/Husseinfo/countin/blob/main/demo.png?raw=true)
+An Android Application that remembers your life events.
+
+![alt Demo](demo.png)
 
 ## Functionalities
+
 - [x] Add/Delete item
 - [x] Time option
 - [x] App Intro
 - [ ] Edit item
+- [ ] Load more
 - [ ] Backup/Restore
 - [ ] Countdown items
 
 ## Android Dev
+
 - [x] Kotlin
 - [x] ROOM
 - [x] Coroutines
