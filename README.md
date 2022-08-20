@@ -11,11 +11,11 @@ An Android Application that remembers your life events.
 - [x] Add/Delete item
 - [x] Time option
 - [x] App Intro
+- [x] Import from image
 - [ ] Edit item
 - [ ] Load more
 - [ ] Backup/Restore
 - [ ] Countdown items
-- [ ] Import from image
 
 ## Android Dev
 

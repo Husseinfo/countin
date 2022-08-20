@@ -2,10 +2,15 @@ package io.github.husseinfo.countin.activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
@@ -102,6 +107,25 @@ class AddItemActivity : AppCompatActivity() {
                 AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
             }
             finish()
+        }
+
+        if (intent?.action == Intent.ACTION_SEND) {
+            try {
+                DocumentFile.fromSingleUri(
+                    this,
+                    (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)!!
+                )?.lastModified()!!.also {
+                    val c = Calendar.getInstance()
+                    c.time = Date.from(Instant.ofEpochMilli(date))
+                    tvDate.text = c.format()
+                    c.set(Calendar.HOUR_OF_DAY, 0)
+                    c.set(Calendar.MINUTE, 0)
+                    c.set(Calendar.SECOND, 0)
+                    date = c.time.time
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Unable to fetch date! [$e]", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
