@@ -42,6 +42,8 @@ class AddItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_item)
 
+        supportActionBar?.title = getString(R.string.add_item)
+
         tvDate = findViewById(R.id.tv_date)
         swTime = findViewById(R.id.sw_time)
         Calendar.getInstance().also {

@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/img"
         android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:contentDescription="@string/image"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_timeline_primary"
