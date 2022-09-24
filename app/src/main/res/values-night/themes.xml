@@ -4,7 +4,7 @@
 
         <item name="colorPrimaryDark">@color/primaryVariant</item>
         <item name="colorError">@android:color/holo_red_dark</item>
-        <item name="android:colorBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background_night</item>
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
