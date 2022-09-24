@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.ImageView
@@ -79,8 +80,10 @@ class AddItemActivity : AppCompatActivity() {
         }
 
         swTime.setOnCheckedChangeListener { _, checked: Boolean ->
-            if (!checked)
+            if (!checked || time != 0) {
+                time = 0
                 return@setOnCheckedChangeListener
+            }
 
             val c = Calendar.getInstance().time
             TimePickerDialog(
@@ -129,12 +132,11 @@ class AddItemActivity : AppCompatActivity() {
                     (intent.parcelable<Parcelable>(Intent.EXTRA_STREAM) as? Uri)!!
                 )?.lastModified()!!.also {
                     val c = Calendar.getInstance()
-                    c.time = Date.from(Instant.ofEpochMilli(date))
-                    tvDate.text = c.format()
-                    c.set(Calendar.HOUR_OF_DAY, 0)
-                    c.set(Calendar.MINUTE, 0)
-                    c.set(Calendar.SECOND, 0)
+                    c.time = Date.from(Instant.ofEpochMilli(it))
                     date = c.time.time
+                    tvDate.text = c.format()
+                    time = (c.get(Calendar.HOUR_OF_DAY) * 3600 + c.get(Calendar.MINUTE) * 60) * 1000
+                    swTime.isChecked = true
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, "Unable to fetch date! [$e]", Toast.LENGTH_SHORT).show()
