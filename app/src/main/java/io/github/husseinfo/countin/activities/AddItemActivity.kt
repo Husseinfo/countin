@@ -1,5 +1,6 @@
 package io.github.husseinfo.countin.activities
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -8,12 +9,21 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.documentfile.provider.DocumentFile
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -24,6 +34,9 @@ import com.google.android.material.textview.MaterialTextView
 import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
+import io.github.husseinfo.maticonsearch.IconName
+import io.github.husseinfo.maticonsearch.MaterialIconSelectorActivity
+import io.github.husseinfo.maticonsearch.getIcon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -116,6 +129,51 @@ class AddItemActivity : AppCompatActivity() {
             }
             finish()
         }
+
+        val icon = findViewById<ComposeView>(R.id.icon)
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+
+                    val iconName = IconName(result)
+
+                    Snackbar.make(
+                        window.decorView.findViewById(android.R.id.content),
+                        iconName.iconName, Snackbar.LENGTH_SHORT
+                    ).show()
+
+                    icon.setContent {
+                        MaterialTheme {
+                            Surface {
+                                Icon(
+                                    modifier = Modifier.size(40.dp),
+                                    imageVector = getIcon(
+                                        baseContext,
+                                        iconName.iconName,
+                                        iconName.iconStyle
+                                    ),
+                                    contentDescription = iconName.iconName
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            icon.setContent {
+                MaterialTheme {
+                    Surface {
+                        Icon(
+                            modifier = Modifier.size(40.dp),
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Icon"
+                        )
+                    }
+                }
+            }
+            findViewById<MaterialButton>(R.id.btn_select_icon).setOnClickListener {
+                resultLauncher.launch(Intent(this, MaterialIconSelectorActivity::class.java))
+            }
 
         if (intent?.action == Intent.ACTION_SEND) {
             try {
