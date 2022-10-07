@@ -137,11 +137,6 @@ class AddItemActivity : AppCompatActivity() {
 
                     val iconName = IconName(result)
 
-                    Snackbar.make(
-                        window.decorView.findViewById(android.R.id.content),
-                        iconName.iconName, Snackbar.LENGTH_SHORT
-                    ).show()
-
                     icon.setContent {
                         MaterialTheme {
                             Surface {
@@ -160,20 +155,20 @@ class AddItemActivity : AppCompatActivity() {
                 }
             }
 
-            icon.setContent {
-                MaterialTheme {
-                    Surface {
-                        Icon(
-                            modifier = Modifier.size(40.dp),
-                            imageVector = Icons.Filled.Settings,
-                            contentDescription = "Icon"
-                        )
-                    }
+        icon.setContent {
+            MaterialTheme {
+                Surface {
+                    Icon(
+                        modifier = Modifier.size(40.dp),
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = "Icon"
+                    )
                 }
             }
-            findViewById<MaterialButton>(R.id.btn_select_icon).setOnClickListener {
-                resultLauncher.launch(Intent(this, MaterialIconSelectorActivity::class.java))
-            }
+        }
+        findViewById<MaterialButton>(R.id.btn_select_icon).setOnClickListener {
+            resultLauncher.launch(Intent(this, MaterialIconSelectorActivity::class.java))
+        }
 
         if (intent?.action == Intent.ACTION_SEND) {
             try {
