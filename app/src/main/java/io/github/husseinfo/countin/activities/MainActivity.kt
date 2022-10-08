@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.husseinfo.countin.CountsListAdapter
@@ -12,7 +13,7 @@ import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.isFirstRun
 import kotlinx.coroutines.*
 
-class MainActivity : Activity(), CoroutineScope by MainScope() {
+class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var countsRecyclerView: RecyclerView
     private lateinit var countsListAdapter: CountsListAdapter
 

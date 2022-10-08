@@ -16,11 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -49,6 +45,8 @@ import java.util.*
 class AddItemActivity : AppCompatActivity() {
     private var date: Long = 0L
     private var time: Int = 0
+    private var icon: String? = null
+
     private lateinit var tvDate: MaterialTextView
     private lateinit var swTime: SwitchMaterial
 
@@ -123,49 +121,34 @@ class AddItemActivity : AppCompatActivity() {
 
             if (swTime.isChecked)
                 date += time
-            val model = CountModel(title, date, swTime.isChecked)
+            val model = CountModel(title, date, swTime.isChecked, icon)
             MainScope().launch(Dispatchers.IO) {
                 AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
             }
             finish()
         }
 
-        val icon = findViewById<ComposeView>(R.id.icon)
+        val iconView = findViewById<ComposeView>(R.id.icon)
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
 
                     val iconName = IconName(result)
-
-                    icon.setContent {
-                        MaterialTheme {
-                            Surface {
-                                Icon(
-                                    modifier = Modifier.size(40.dp),
-                                    imageVector = getIcon(
-                                        baseContext,
-                                        iconName.iconName,
-                                        iconName.iconStyle
-                                    ),
-                                    contentDescription = iconName.iconName
-                                )
-                            }
-                        }
+                    icon = iconName.iconStyle.javaClass.simpleName + "." + iconName.iconName
+                    iconView.setContent {
+                        Icon(
+                            modifier = Modifier.size(40.dp),
+                            imageVector = getIcon(
+                                baseContext,
+                                iconName.iconName,
+                                iconName.iconStyle
+                            ),
+                            contentDescription = iconName.iconName
+                        )
                     }
                 }
             }
 
-        icon.setContent {
-            MaterialTheme {
-                Surface {
-                    Icon(
-                        modifier = Modifier.size(40.dp),
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = "Icon"
-                    )
-                }
-            }
-        }
         findViewById<MaterialButton>(R.id.btn_select_icon).setOnClickListener {
             resultLauncher.launch(Intent(this, MaterialIconSelectorActivity::class.java))
         }

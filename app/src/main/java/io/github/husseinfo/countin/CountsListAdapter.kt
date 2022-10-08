@@ -7,10 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
+import io.github.husseinfo.maticonsearch.getIcon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -26,6 +33,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         var days: TextView
         var hours: TextView
         var minutes: TextView
+        var icon: ComposeView
 
         init {
             title = v.findViewById(R.id.tv_title)
@@ -34,6 +42,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
             days = v.findViewById(R.id.tv_days)
             hours = v.findViewById(R.id.tv_hours)
             minutes = v.findViewById(R.id.tv_minutes)
+            icon = v.findViewById(R.id.icon)
         }
     }
 
@@ -52,6 +61,27 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         h.years.text = difference.years.toString()
         h.months.text = difference.months.toString()
         h.days.text = difference.days.toString()
+
+        if (c.icon != null) {
+            val iconStyle: Any = when (c.icon.split(".")[0]) {
+                "Filled" -> Icons.Filled
+                "Outlined" ->  Icons.Outlined
+                "TwoTone" ->  Icons.TwoTone
+                "Rounded" ->  Icons.Rounded
+                else -> Icons.Filled
+            }
+            h.icon.setContent {
+                Icon(
+                    modifier = Modifier.size(40.dp),
+                    imageVector = getIcon(
+                        h.itemView.context,
+                        c.icon.split(".")[1],
+                        iconStyle
+                    ),
+                    contentDescription = c.icon
+                )
+            }
+        }
 
         if (c.withTime) {
             h.hours.text = (c.milliDiff() / 1000 / 3600 % 24).toString()

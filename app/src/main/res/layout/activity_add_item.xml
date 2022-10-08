@@ -37,6 +37,15 @@
             android:inputType="textAutoCorrect" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/til_title"
+        app:layout_constraintEnd_toEndOf="@id/til_title"
+        app:layout_constraintTop_toTopOf="@id/til_title" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
@@ -53,6 +62,7 @@
         android:id="@+id/sw_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
@@ -70,17 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_icon"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sw_time" />
-
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/btn_select_icon"
-        app:layout_constraintStart_toEndOf="@id/btn_select_icon"
-        app:layout_constraintTop_toTopOf="@id/btn_select_icon" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_dismiss"
