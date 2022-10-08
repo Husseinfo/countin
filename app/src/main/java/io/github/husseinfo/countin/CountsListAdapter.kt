@@ -65,9 +65,9 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         if (c.icon != null) {
             val iconStyle: Any = when (c.icon.split(".")[0]) {
                 "Filled" -> Icons.Filled
-                "Outlined" ->  Icons.Outlined
-                "TwoTone" ->  Icons.TwoTone
-                "Rounded" ->  Icons.Rounded
+                "Outlined" -> Icons.Outlined
+                "TwoTone" -> Icons.TwoTone
+                "Rounded" -> Icons.Rounded
                 else -> Icons.Filled
             }
             h.icon.setContent {
@@ -120,6 +120,7 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         holder.itemView.findViewById<View>(R.id.ll_time).visibility = View.GONE
+        holder.icon.setContent { }
     }
 
     override fun getItemCount(): Int {
