@@ -12,6 +12,7 @@ An Android Application that remembers your life events.
 - [x] Time option
 - [x] App Intro
 - [x] Import from image
+- [x] Record icon
 - [ ] Edit item
 - [ ] Load more
 - [ ] Backup/Restore
