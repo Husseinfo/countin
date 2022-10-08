@@ -81,6 +81,18 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                     contentDescription = c.icon
                 )
             }
+        } else {
+            h.icon.setContent {
+                Icon(
+                    modifier = Modifier.size(40.dp),
+                    imageVector = getIcon(
+                        h.itemView.context,
+                        "CalendarMonth",
+                        Icons.Filled
+                    ),
+                    contentDescription = "CalendarMonth"
+                )
+            }
         }
 
         if (c.withTime) {
