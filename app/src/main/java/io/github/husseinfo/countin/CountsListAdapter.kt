@@ -3,6 +3,7 @@ package io.github.husseinfo.countin
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import io.github.husseinfo.countin.activities.AddItemActivity
+import io.github.husseinfo.countin.activities.EDIT_RECORD_ID
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
 import io.github.husseinfo.maticonsearch.getIcon
+import io.github.husseinfo.maticonsearch.getIconByName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -63,21 +66,11 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         h.days.text = difference.days.toString()
 
         if (c.icon != null) {
-            val iconStyle: Any = when (c.icon.split(".")[0]) {
-                "Filled" -> Icons.Filled
-                "Outlined" -> Icons.Outlined
-                "TwoTone" -> Icons.TwoTone
-                "Rounded" -> Icons.Rounded
-                else -> Icons.Filled
-            }
+            val icon = getIconByName(h.itemView.context, c.icon)
             h.icon.setContent {
                 Icon(
                     modifier = Modifier.size(40.dp),
-                    imageVector = getIcon(
-                        h.itemView.context,
-                        c.icon.split(".")[1],
-                        iconStyle
-                    ),
+                    imageVector = icon,
                     contentDescription = c.icon
                 )
             }
@@ -104,11 +97,9 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         }
 
         h.itemView.setOnClickListener {
-            Snackbar.make(
-                h.itemView,
-                c.formatDate(),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            val intent = Intent(h.itemView.context, AddItemActivity::class.java)
+            intent.putExtra(EDIT_RECORD_ID, c.id)
+            h.itemView.context.startActivity(intent)
         }
 
         h.itemView.setOnLongClickListener {

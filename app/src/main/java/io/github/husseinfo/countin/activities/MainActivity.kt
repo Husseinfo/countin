@@ -1,6 +1,5 @@
 package io.github.husseinfo.countin.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -26,10 +25,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
         findViewById<View>(R.id.fab_add).setOnClickListener {
-            startActivity(
-                Intent(this, AddItemActivity::class.java)
-            )
+            startActivity(Intent(this, AddItemActivity::class.java))
         }
+
         countsRecyclerView = findViewById(R.id.counts)
         countsListAdapter = CountsListAdapter()
         countsRecyclerView.adapter = countsListAdapter

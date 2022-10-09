@@ -1,9 +1,6 @@
 package io.github.husseinfo.countin.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CountDAO {
@@ -18,4 +15,7 @@ interface CountDAO {
 
     @Delete
     fun delete(count: CountModel?)
+
+    @Update
+    fun update(model: CountModel)
 }

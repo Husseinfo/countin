@@ -30,17 +30,19 @@ import com.google.android.material.textview.MaterialTextView
 import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
-import io.github.husseinfo.maticonsearch.IconName
 import io.github.husseinfo.maticonsearch.MaterialIconSelectorActivity
-import io.github.husseinfo.maticonsearch.getIcon
+import io.github.husseinfo.maticonsearch.getIconByName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+
+const val EDIT_RECORD_ID = "EDIT_RECORD_ID"
 
 class AddItemActivity : AppCompatActivity() {
     private var date: Long = 0L
@@ -49,6 +51,8 @@ class AddItemActivity : AppCompatActivity() {
 
     private lateinit var tvDate: MaterialTextView
     private lateinit var swTime: SwitchMaterial
+    private lateinit var titleTextInput: TextInputEditText
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +60,8 @@ class AddItemActivity : AppCompatActivity() {
 
         tvDate = findViewById(R.id.tv_date)
         swTime = findViewById(R.id.sw_time)
+        titleTextInput = findViewById(R.id.et_title)
+
         Calendar.getInstance().also {
             tvDate.text = it.format()
             it.set(Calendar.HOUR_OF_DAY, 0)
@@ -107,7 +113,7 @@ class AddItemActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.btn_dismiss).setOnClickListener { finish() }
 
         findViewById<MaterialButton>(R.id.btn_save).setOnClickListener {
-            val title = (findViewById<View>(R.id.et_title) as TextInputEditText).text.toString()
+            val title = titleTextInput.text.toString()
             if (title.isEmpty()) {
                 Snackbar.make(
                     findViewById(R.id.layout),
@@ -119,9 +125,18 @@ class AddItemActivity : AppCompatActivity() {
 
             if (swTime.isChecked)
                 date += time
-            val model = CountModel(title, date, swTime.isChecked, icon)
-            MainScope().launch(Dispatchers.IO) {
-                AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
+
+            if (id > 0) {
+                MainScope().launch(Dispatchers.IO) {
+                    val model = CountModel(title, date, swTime.isChecked, icon)
+                    model.id = id
+                    AppDatabase.getDb(baseContext)!!.countDAO()!!.update(model)
+                }
+            } else {
+                val model = CountModel(title, date, swTime.isChecked, icon)
+                MainScope().launch(Dispatchers.IO) {
+                    AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
+                }
             }
             finish()
         }
@@ -130,18 +145,13 @@ class AddItemActivity : AppCompatActivity() {
         val resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-
-                    val iconName = IconName(result)
-                    icon = iconName.iconStyle.javaClass.simpleName + "." + iconName.iconName
+                    val iconName = getIconByName(this, result)
+                    icon = iconName.name
                     iconView.setContent {
                         Icon(
                             modifier = Modifier.size(40.dp),
-                            imageVector = getIcon(
-                                baseContext,
-                                iconName.iconName,
-                                iconName.iconStyle
-                            ),
-                            contentDescription = iconName.iconName
+                            imageVector = iconName,
+                            contentDescription = iconName.name
                         )
                     }
                 }
@@ -149,6 +159,40 @@ class AddItemActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.btn_select_icon).setOnClickListener {
             resultLauncher.launch(Intent(this, MaterialIconSelectorActivity::class.java))
+        }
+
+        id = intent.getIntExtra(EDIT_RECORD_ID, -1)
+        if (id > 0) {
+            val modelCoroutine = MainScope().async(Dispatchers.IO) {
+                AppDatabase.getDb(baseContext)?.countDAO()?.findById(id)
+            }
+
+            MainScope().launch(Dispatchers.Main) {
+                val model = modelCoroutine.await()
+                if (model != null) {
+                    titleTextInput.setText(model.title)
+
+                    val c = Calendar.getInstance()
+                    c.time = Date.from(Instant.ofEpochMilli(model.date))
+                    date = c.time.time
+                    tvDate.text = c.format()
+                    time = (c.get(Calendar.HOUR_OF_DAY) * 3600 + c.get(Calendar.MINUTE) * 60) * 1000
+
+                    tvDate.text = c.format()
+                    swTime.isChecked = model.withTime
+
+                    if (model.icon != null) {
+                        icon = model.icon
+                        iconView.setContent {
+                            Icon(
+                                modifier = Modifier.size(40.dp),
+                                imageVector = getIconByName(baseContext, model.icon),
+                                contentDescription = icon
+                            )
+                        }
+                    }
+                }
+            }
         }
 
         if (intent?.action == Intent.ACTION_SEND) {
