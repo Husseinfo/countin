@@ -50,6 +50,7 @@ class AddItemActivity : AppCompatActivity() {
     private var icon: String? = null
 
     private lateinit var tvDate: MaterialTextView
+    private lateinit var tvTime: MaterialTextView
     private lateinit var swTime: SwitchMaterial
     private lateinit var titleTextInput: TextInputEditText
     private var id: Int = 0
@@ -59,6 +60,7 @@ class AddItemActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_item)
 
         tvDate = findViewById(R.id.tv_date)
+        tvTime = findViewById(R.id.tv_time)
         swTime = findViewById(R.id.sw_time)
         titleTextInput = findViewById(R.id.et_title)
 
@@ -95,6 +97,10 @@ class AddItemActivity : AppCompatActivity() {
         }
 
         swTime.setOnCheckedChangeListener { _, checked: Boolean ->
+            when {
+                checked -> tvTime.visibility = View.VISIBLE
+                else -> tvTime.visibility = View.GONE
+            }
             if (!checked || time != 0) {
                 time = 0
                 return@setOnCheckedChangeListener
@@ -103,7 +109,10 @@ class AddItemActivity : AppCompatActivity() {
             val c = Calendar.getInstance().time
             TimePickerDialog(
                 this,
-                { _, hour, minute -> time = (hour * 3600 + minute * 60) * 1000 },
+                { _, hour, minute ->
+                    time = (hour * 3600 + minute * 60) * 1000
+                    tvTime.text = "${hour.formatTime()}:${minute.formatTime()}"
+                },
                 c.hours,
                 c.minutes,
                 true
@@ -180,7 +189,9 @@ class AddItemActivity : AppCompatActivity() {
 
                     tvDate.text = c.format()
                     swTime.isChecked = model.withTime
-
+                    tvTime.text = "${c.get(Calendar.HOUR_OF_DAY).formatTime()}:${
+                        c.get(Calendar.MINUTE).formatTime()
+                    }"
                     if (model.icon != null) {
                         icon = model.icon
                         iconView.setContent {
@@ -234,3 +245,10 @@ private inline fun <reified T> Intent.parcelable(key: String): T? =
         getParcelableExtra(key, T::class.java)
     else
         @Suppress("DEPRECATION") getParcelableExtra(key) as? T
+
+
+private fun Int.formatTime(): String {
+    if (this < 10)
+        return "0$this"
+    return this.toString()
+}
