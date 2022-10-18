@@ -1,5 +1,6 @@
 package io.github.husseinfo.countin.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -15,9 +16,13 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.documentfile.provider.DocumentFile
@@ -31,6 +36,7 @@ import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
 import io.github.husseinfo.maticonsearch.MaterialIconSelectorActivity
+import io.github.husseinfo.maticonsearch.getAppColorScheme
 import io.github.husseinfo.maticonsearch.getIconByName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -55,6 +61,7 @@ class AddItemActivity : AppCompatActivity() {
     private lateinit var titleTextInput: TextInputEditText
     private var id: Int = 0
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_item)
@@ -157,11 +164,20 @@ class AddItemActivity : AppCompatActivity() {
                     val iconName = getIconByName(this, result)
                     icon = iconName.name
                     iconView.setContent {
-                        Icon(
-                            modifier = Modifier.size(40.dp),
-                            imageVector = iconName,
-                            contentDescription = iconName.name
-                        )
+                        MaterialTheme(
+                            colorScheme = getAppColorScheme(
+                                this, isSystemInDarkTheme()
+                            )
+                        ) {
+                            Surface {
+                                Icon(
+                                    modifier = Modifier.size(40.dp),
+                                    imageVector = iconName,
+                                    tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
+                                    contentDescription = iconName.name
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -198,6 +214,7 @@ class AddItemActivity : AppCompatActivity() {
                             Icon(
                                 modifier = Modifier.size(40.dp),
                                 imageVector = getIconByName(baseContext, model.icon),
+                                tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
                                 contentDescription = icon
                             )
                         }

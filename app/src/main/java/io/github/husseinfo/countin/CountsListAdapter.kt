@@ -8,10 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
@@ -68,23 +71,29 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
         if (c.icon != null) {
             val icon = getIconByName(h.itemView.context, c.icon)
             h.icon.setContent {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    imageVector = icon,
-                    contentDescription = c.icon
-                )
+                MaterialTheme {
+                    Icon(
+                        modifier = Modifier.size(40.dp),
+                        imageVector = icon,
+                        tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
+                        contentDescription = icon.name
+                    )
+                }
             }
         } else {
             h.icon.setContent {
-                Icon(
-                    modifier = Modifier.size(40.dp),
-                    imageVector = getIcon(
-                        h.itemView.context,
-                        "CalendarMonth",
-                        Icons.Filled
-                    ),
-                    contentDescription = "CalendarMonth"
-                )
+                MaterialTheme {
+                    Icon(
+                        modifier = Modifier.size(40.dp),
+                        imageVector = getIcon(
+                            h.itemView.context,
+                            "CalendarMonth",
+                            Icons.Filled
+                        ),
+                        tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
+                        contentDescription = "CalendarMonth"
+                    )
+                }
             }
         }
 
