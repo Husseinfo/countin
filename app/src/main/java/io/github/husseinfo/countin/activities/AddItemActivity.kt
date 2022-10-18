@@ -20,7 +20,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -169,14 +168,12 @@ class AddItemActivity : AppCompatActivity() {
                                 this, isSystemInDarkTheme()
                             )
                         ) {
-                            Surface {
-                                Icon(
-                                    modifier = Modifier.size(40.dp),
-                                    imageVector = iconName,
-                                    tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
-                                    contentDescription = iconName.name
-                                )
-                            }
+                            Icon(
+                                modifier = Modifier.size(40.dp),
+                                imageVector = iconName,
+                                tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
+                                contentDescription = iconName.name
+                            )
                         }
                     }
                 }
