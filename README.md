@@ -14,6 +14,7 @@ An Android Application that remembers your life events.
 - [x] Import from image
 - [x] Record icon
 - [x] Edit item
+- [x] Fingerprint authentication
 - [ ] Load more
 - [ ] Backup/Restore
 - [ ] Countdown items

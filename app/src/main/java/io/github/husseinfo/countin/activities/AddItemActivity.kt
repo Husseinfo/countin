@@ -260,7 +260,6 @@ private inline fun <reified T> Intent.parcelable(key: String): T? =
     else
         @Suppress("DEPRECATION") getParcelableExtra(key) as? T
 
-
 private fun Int.formatTime(): String {
     if (this < 10)
         return "0$this"
