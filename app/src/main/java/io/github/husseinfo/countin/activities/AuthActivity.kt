@@ -40,6 +40,7 @@ class AuthActivity : AppCompatActivity() {
                     override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                         super.onAuthenticationSucceeded(result)
                         startActivity(Intent(baseContext, MainActivity::class.java))
+                        finish()
                     }
                 })
 
@@ -49,7 +50,9 @@ class AuthActivity : AppCompatActivity() {
                 .setNegativeButtonText(getString(android.R.string.cancel))
                 .build()
             biometricPrompt.authenticate(promptInfo)
-        } else
+        } else {
             startActivity(Intent(baseContext, MainActivity::class.java))
+            finish()
+        }
     }
 }
