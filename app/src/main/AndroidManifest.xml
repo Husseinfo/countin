@@ -34,8 +34,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.IntroActivity" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.IntroActivity"
+            android:exported="false" />
 
     </application>
 </manifest>
