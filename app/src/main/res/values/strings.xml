@@ -16,4 +16,10 @@
     <string name="intro_desc_2">Add date and/or time bookmarks</string>
     <string name="background">Background</string>
     <string name="select_icon">Select icon</string>
+
+    <!-- Preferences -->
+    <string name="auth">Auth</string>
+    <string name="enable_auth">Biometric Authentication</string>
+    <string name="biometric_prompt">You can disable Authentication in app settings</string>
+    <string name="use_fingerprint">Authenticate to continue</string>
 </resources>

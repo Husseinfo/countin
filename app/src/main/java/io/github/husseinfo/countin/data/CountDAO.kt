@@ -11,10 +11,10 @@ interface CountDAO {
     fun findById(id: Int): CountModel?
 
     @Insert
-    fun insertAll(vararg counts: CountModel?)
+    fun insertAll(vararg counts: CountModel)
 
     @Delete
-    fun delete(count: CountModel?)
+    fun delete(count: CountModel)
 
     @Update
     fun update(model: CountModel)

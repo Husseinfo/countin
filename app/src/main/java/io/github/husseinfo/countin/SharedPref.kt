@@ -1,8 +1,10 @@
 package io.github.husseinfo.countin
 
 import android.content.Context
+import androidx.preference.PreferenceManager
 
 const val APP_INTRO_FLAG = "APP_INTRO_FLAG"
+const val APP_AUTH = "APP_AUTH"
 
 fun saveFirstRun(context: Context) {
     val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
@@ -14,4 +16,9 @@ fun saveFirstRun(context: Context) {
 fun isFirstRun(context: Context): Boolean {
     val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
     return sharedPref.getBoolean(APP_INTRO_FLAG, false)
+}
+
+fun isAuthEnabled(context: Context): Boolean {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    return preferences.getBoolean(APP_AUTH, true)
 }

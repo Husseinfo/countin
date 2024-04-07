@@ -7,7 +7,9 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import io.github.husseinfo.countin.R
+import io.github.husseinfo.countin.isAuthEnabled
 import java.util.concurrent.Executor
+
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var executor: Executor
@@ -19,7 +21,11 @@ class AuthActivity : AppCompatActivity() {
         setContentView(R.layout.activity_auth)
 
         if (BiometricManager.from(this)
-                .canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS
+                .canAuthenticate(
+                    BiometricManager.Authenticators.BIOMETRIC_WEAK
+                            or BiometricManager.Authenticators.BIOMETRIC_STRONG
+                ) == BiometricManager.BIOMETRIC_SUCCESS
+            && isAuthEnabled(baseContext)
         ) {
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,
@@ -45,8 +51,8 @@ class AuthActivity : AppCompatActivity() {
                 })
 
             promptInfo = BiometricPrompt.PromptInfo.Builder()
-                .setTitle(getString(androidx.biometric.R.string.use_fingerprint_label))
-                .setDescription(getString(androidx.biometric.R.string.biometric_prompt_message))
+                .setTitle(getString(R.string.use_fingerprint))
+                .setDescription(getString(R.string.biometric_prompt))
                 .setNegativeButtonText(getString(android.R.string.cancel))
                 .build()
             biometricPrompt.authenticate(promptInfo)

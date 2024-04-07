@@ -10,7 +10,11 @@ import io.github.husseinfo.countin.CountsListAdapter
 import io.github.husseinfo.countin.R
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.isFirstRun
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private lateinit var countsRecyclerView: RecyclerView
@@ -50,4 +54,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             countsListAdapter.update(items.await())
         }
     }
+
+    fun openSettings(view: View) = startActivity(Intent(baseContext, SettingsActivity::class.java))
 }
