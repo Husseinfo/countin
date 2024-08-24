@@ -12,7 +12,8 @@ class CountModel(
     @field:ColumnInfo(name = "title") var title: String,
     @field:ColumnInfo(name = "date") var date: Long,
     @field:ColumnInfo(name = "with_time") val withTime: Boolean,
-    @field:ColumnInfo(name = "icon") val icon: String?
+    @field:ColumnInfo(name = "icon") val icon: String?,
+    @field:ColumnInfo(name = "list") val list: String?,
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [CountModel::class], version = 3, exportSchema = false)
+@Database(entities = [CountModel::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun countDAO(): CountDAO?
 
@@ -18,6 +18,8 @@ abstract class AppDatabase : RoomDatabase() {
                 db = Room.databaseBuilder(context, AppDatabase::class.java, "db.sqlite")
                     .addMigrations(MIGRATION_1_2)
                     .addMigrations(MIGRATION_2_3)
+                    .addMigrations(MIGRATION_3_4)
+                    .allowMainThreadQueries()
                     .build()
             return db
         }
@@ -33,5 +35,11 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 val MIGRATION_2_3 = object : Migration(2, 3) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE count ADD COLUMN icon TEXT")
+    }
+}
+
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE count ADD COLUMN list TEXT")
     }
 }

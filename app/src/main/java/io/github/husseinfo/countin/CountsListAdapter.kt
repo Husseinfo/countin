@@ -33,23 +33,14 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
     private val items: MutableList<CountModel> = ArrayList()
 
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-        var title: TextView
-        var years: TextView
-        var months: TextView
-        var days: TextView
-        var hours: TextView
-        var minutes: TextView
-        var icon: ComposeView
-
-        init {
-            title = v.findViewById(R.id.tv_title)
-            years = v.findViewById(R.id.tv_years)
-            months = v.findViewById(R.id.tv_months)
-            days = v.findViewById(R.id.tv_days)
-            hours = v.findViewById(R.id.tv_hours)
-            minutes = v.findViewById(R.id.tv_minutes)
-            icon = v.findViewById(R.id.icon)
-        }
+        var title: TextView = v.findViewById(R.id.tv_title)
+        var years: TextView = v.findViewById(R.id.tv_years)
+        var months: TextView = v.findViewById(R.id.tv_months)
+        var days: TextView = v.findViewById(R.id.tv_days)
+        var hours: TextView = v.findViewById(R.id.tv_hours)
+        var minutes: TextView = v.findViewById(R.id.tv_minutes)
+        var icon: ComposeView = v.findViewById(R.id.icon)
+        var list: TextView = v.findViewById(R.id.list)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -95,6 +86,10 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
                     )
                 }
             }
+        }
+
+        if (c.list?.isEmpty() == false) {
+            h.list.text = c.list
         }
 
         if (difference.isNegative) {

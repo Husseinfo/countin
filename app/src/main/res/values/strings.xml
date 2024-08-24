@@ -14,6 +14,8 @@
     <string name="intro_desc_1">An application that remembers your life events!</string>
     <string name="intro_title_2">Date/time</string>
     <string name="intro_desc_2">Add date and/or time bookmarks</string>
+    <string name="intro_title_3">Lists</string>
+    <string name="intro_desc_3">Group events by lists</string>
     <string name="background">Background</string>
     <string name="select_icon">Select icon</string>
 
@@ -22,4 +24,5 @@
     <string name="enable_auth">Biometric Authentication</string>
     <string name="biometric_prompt">You can disable Authentication in app settings</string>
     <string name="use_fingerprint">Authenticate to continue</string>
+    <string name="list">List (Optional)</string>
 </resources>

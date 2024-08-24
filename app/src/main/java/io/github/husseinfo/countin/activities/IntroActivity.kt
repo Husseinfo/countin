@@ -33,10 +33,21 @@ class IntroActivity : AppIntro() {
                 descriptionColorRes = R.color.accentDark
             )
         )
+
+        addSlide(
+            AppIntroFragment.createInstance(
+                title = getString(R.string.intro_title_3),
+                description = getString(R.string.intro_desc_3),
+                imageDrawable = R.drawable.ic_baseline_timeline_primary,
+                titleColorRes = R.color.primaryVariant,
+                descriptionColorRes = R.color.accentDark
+            )
+        )
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
         super.onSkipPressed(currentFragment)
+        saveFirstRun(this)
         finish()
     }
 

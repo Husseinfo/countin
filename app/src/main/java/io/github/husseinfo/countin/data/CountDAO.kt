@@ -10,6 +10,9 @@ interface CountDAO {
     @Query("SELECT * FROM count WHERE id = :id LIMIT 1")
     fun findById(id: Int): CountModel?
 
+    @Query("SELECT DISTINCT list FROM count where list IS NOT NULL AND list != ''")
+    fun getLists(): List<String>
+
     @Insert
     fun insertAll(vararg counts: CountModel)
 

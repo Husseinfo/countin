@@ -1,5 +1,6 @@
 package io.github.husseinfo.countin.activities
 
+import android.R.array
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -11,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.Toast
@@ -29,6 +31,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import io.github.husseinfo.countin.R
@@ -47,6 +50,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+
 const val EDIT_RECORD_ID = "EDIT_RECORD_ID"
 
 class AddItemActivity : AppCompatActivity() {
@@ -58,6 +62,7 @@ class AddItemActivity : AppCompatActivity() {
     private lateinit var tvTime: MaterialTextView
     private lateinit var swTime: SwitchMaterial
     private lateinit var titleTextInput: TextInputEditText
+    private lateinit var listTextInput: MaterialAutoCompleteTextView
     private var id: Int = 0
 
     @SuppressLint("SetTextI18n")
@@ -69,6 +74,15 @@ class AddItemActivity : AppCompatActivity() {
         tvTime = findViewById(R.id.tv_time)
         swTime = findViewById(R.id.sw_time)
         titleTextInput = findViewById(R.id.et_title)
+        listTextInput = findViewById(R.id.et_list)
+        val strings = AppDatabase.getDb(this)!!.countDAO()!!.getLists()
+        val adapter = ArrayAdapter(this, android.R.layout.select_dialog_item, strings)
+        listTextInput.setAdapter(adapter)
+        listTextInput.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                listTextInput.showDropDown()
+            }
+        }
 
         Calendar.getInstance().also {
             tvDate.text = it.format()
@@ -128,6 +142,7 @@ class AddItemActivity : AppCompatActivity() {
 
         findViewById<MaterialButton>(R.id.btn_save).setOnClickListener {
             val title = titleTextInput.text.toString()
+            val list = listTextInput.text.toString()
             if (title.isEmpty()) {
                 Snackbar.make(
                     findViewById(R.id.layout),
@@ -142,12 +157,12 @@ class AddItemActivity : AppCompatActivity() {
 
             if (id > 0) {
                 MainScope().launch(Dispatchers.IO) {
-                    val model = CountModel(title, date, swTime.isChecked, icon)
+                    val model = CountModel(title, date, swTime.isChecked, icon, list)
                     model.id = id
                     AppDatabase.getDb(baseContext)!!.countDAO()!!.update(model)
                 }
             } else {
-                val model = CountModel(title, date, swTime.isChecked, icon)
+                val model = CountModel(title, date, swTime.isChecked, icon, list)
                 MainScope().launch(Dispatchers.IO) {
                     AppDatabase.getDb(baseContext)!!.countDAO()!!.insertAll(model)
                 }
@@ -192,6 +207,7 @@ class AddItemActivity : AppCompatActivity() {
                 val model = modelCoroutine.await()
                 if (model != null) {
                     titleTextInput.setText(model.title)
+                    listTextInput.setText(model.list)
 
                     val c = Calendar.getInstance()
                     c.time = Date.from(Instant.ofEpochMilli(model.date))
