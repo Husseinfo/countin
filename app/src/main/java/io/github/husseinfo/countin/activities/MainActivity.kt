@@ -56,4 +56,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     }
 
     fun openSettings(view: View) = startActivity(Intent(baseContext, SettingsActivity::class.java))
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppDatabase.getDb(applicationContext)?.close()
+    }
 }

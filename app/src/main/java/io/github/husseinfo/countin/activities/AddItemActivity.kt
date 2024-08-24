@@ -97,7 +97,6 @@ class AddItemActivity : AppCompatActivity() {
                     tvDate.text = calendar.format()
                     swTime.isChecked = false
                 }
-                it.datePicker.maxDate = Calendar.getInstance().time.time
                 it.show()
             }
         }

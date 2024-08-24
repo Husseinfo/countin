@@ -97,6 +97,10 @@ class CountsListAdapter : RecyclerView.Adapter<CountsListAdapter.ViewHolder>() {
             }
         }
 
+        if (difference.isNegative) {
+            h.itemView.setBackgroundColor(android.graphics.Color.argb(25, 255, 0, 0))
+        }
+
         if (c.withTime) {
             h.hours.text = (c.milliDiff() / 1000 / 3600 % 24).toString()
             h.minutes.text = (c.milliDiff() / 1000 / 60 % 60).toString()
