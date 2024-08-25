@@ -3,55 +3,38 @@ package io.github.husseinfo.countin.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import io.github.husseinfo.countin.CountsListAdapter
-import io.github.husseinfo.countin.R
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.isFirstRun
+import io.github.husseinfo.countin.theme.AppTheme
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
-    private lateinit var countsRecyclerView: RecyclerView
-    private lateinit var countsListAdapter: CountsListAdapter
-
+class MainActivity : ComponentActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         if (!isFirstRun(this)) {
             startActivity(Intent(this, IntroActivity::class.java))
         }
-
-        findViewById<View>(R.id.fab_add).setOnClickListener {
-            startActivity(Intent(this, AddItemActivity::class.java))
-        }
-
-        countsRecyclerView = findViewById(R.id.counts)
-        countsListAdapter = CountsListAdapter()
-        countsRecyclerView.adapter = countsListAdapter
-        countsRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        countsRecyclerView.setHasFixedSize(false)
     }
 
     override fun onResume() {
         super.onResume()
+        updateUI()
+    }
 
-        val items = async(Dispatchers.IO) {
-            AppDatabase.getDb(baseContext)!!.countDAO()?.all!!
-        }
-
-        launch(Dispatchers.Main) {
-            countsListAdapter.update(items.await())
+    private fun updateUI() {
+        setContent {
+            AppTheme {
+                Column {
+                    Header()
+                    CountsList(items = AppDatabase.getDb(baseContext)!!.countDAO()?.all!!)
+                    FAB()
+                }
+            }
         }
     }
 

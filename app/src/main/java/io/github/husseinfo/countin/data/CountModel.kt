@@ -4,8 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import io.github.husseinfo.countin.activities.format
-import java.time.*
-import java.util.*
+import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.Period
+import java.time.ZoneOffset
+import java.util.Calendar
+import java.util.Date
 
 @Entity(tableName = "count")
 class CountModel(
@@ -29,7 +34,7 @@ class CountModel(
         )
     }
 
-    fun milliDiff(): Long {
+    private fun milliDiff(): Long {
         return Calendar.getInstance().time.time - date
     }
 
@@ -37,5 +42,17 @@ class CountModel(
         val c = Calendar.getInstance()
         c.time = Date.from(Instant.ofEpochMilli(date))
         return c.format(withTime)
+    }
+
+    fun getPeriod(): String {
+        val difference: Period = dateDiff();
+        val per = "${difference.years}Y, ${difference.months}M, ${difference.days}D"
+        if (withTime) {
+            val diff = milliDiff() / 1000
+            val h = (diff / 3600 % 24).toString()
+            val m = (diff / 60 % 60).toString()
+            return "$per  -  ${h}H, ${m}M"
+        }
+        return per
     }
 }
