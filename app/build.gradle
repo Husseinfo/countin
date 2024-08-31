@@ -11,8 +11,8 @@ android {
         applicationId "io.github.husseinfo.countin"
         minSdk 26
         targetSdk 34
-        versionCode 17
-        versionName "1.0.7"
+        versionCode 18
+        versionName "1.0.8"
     }
 
     signingConfigs {
@@ -69,6 +69,7 @@ dependencies {
     implementation "androidx.compose.material3:material3:1.2.1"
     implementation "androidx.compose.ui:ui:1.6.8"
     implementation 'androidx.activity:activity-compose:1.9.1'
+    implementation 'androidx.compose.ui:ui-tooling-preview:1.6.8'
     debugImplementation "androidx.compose.ui:ui-tooling:1.6.8"
     implementation 'com.github.Husseinfo:material-icons-extended-search:1.0.2'
 

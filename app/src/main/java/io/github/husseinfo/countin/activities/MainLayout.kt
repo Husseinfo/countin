@@ -46,7 +46,7 @@ fun CountsList(
     items: List<CountModel>
 ) {
     val context = LocalContext.current
-    LazyColumn(modifier = Modifier.padding(top = 5.dp)) {
+    LazyColumn {
         items(items.size) { item ->
             Row(
                 Modifier
@@ -75,7 +75,8 @@ fun CountsList(
                 }) {
                     Text(
                         text = items[item].title,
-                        style = Typography.titleSmall
+                        style = Typography.titleSmall,
+                        color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray
                     )
                     Text(
                         text = items[item].getPeriod(),
@@ -86,7 +87,7 @@ fun CountsList(
                 Spacer(modifier = Modifier.weight(1f))
 
 
-                if (items[item].list != null)
+                if (items[item].list != null && items[item].list!!.isNotEmpty())
                     ListShape(item = items[item])
             }
         }
@@ -117,12 +118,12 @@ fun Header() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp),
+            .height(50.dp),
         contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_baseline_timeline_primary),
-            contentDescription = null, // Optional: use stringResource(R.string.image)
+            contentDescription = stringResource(R.string.image),
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .width(200.dp)
@@ -133,43 +134,48 @@ fun Header() {
     }
 }
 
+
 @Composable
-fun FAB() {
+fun MainUI(items: List<CountModel>) {
     val context = LocalContext.current
-    Box(
-        modifier = Modifier
-            .padding(25.dp)
-            .fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd
-    ) {
-        FloatingActionButton(
-            onClick = {
-                context.startActivity(Intent(context, AddItemActivity::class.java))
-            },
-            content = {
-                Icon(
-                    imageVector = Icons.Default.AddCircle,
-                    contentDescription = stringResource(id = R.string.add_item)
+    AppTheme {
+        Column {
+            Header()
+            Box(modifier = Modifier.fillMaxSize()) {
+                CountsList(
+                    items
                 )
+                FloatingActionButton(
+                    onClick = {
+                        context.startActivity(
+                            Intent(
+                                context,
+                                AddItemActivity::class.java
+                            )
+                        )
+                    },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.AddCircle,
+                        contentDescription = stringResource(id = R.string.add_item)
+                    )
+                }
             }
-        )
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun MainPreview() {
-    AppTheme {
-        Column {
-            Header()
-            CountsList(
-                listOf(
-                    CountModel("First", 1703100000000, false, null, "Travel"),
-                    CountModel("Second", 1672100000000, true, null, null),
-                    CountModel("Third", 1643102000000, false, null, "Life"),
-                )
-            )
-            FAB()
-        }
-    }
+    MainUI(
+        listOf(
+            CountModel("First", 1703100000000, false, null, "Travel"),
+            CountModel("Second", 1672100000000, true, null, null),
+            CountModel("Third", 1643102000000, false, null, "Life"),
+        )
+    )
 }
