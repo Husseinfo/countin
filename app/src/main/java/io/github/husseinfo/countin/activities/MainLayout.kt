@@ -1,9 +1,13 @@
 package io.github.husseinfo.countin.activities
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +27,10 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,17 +41,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.husseinfo.countin.R
+import io.github.husseinfo.countin.data.AppDatabase
 import io.github.husseinfo.countin.data.CountModel
 import io.github.husseinfo.countin.theme.AppTheme
+import io.github.husseinfo.countin.theme.Primary
 import io.github.husseinfo.countin.theme.Typography
 import io.github.husseinfo.countin.theme.Upcoming
 import io.github.husseinfo.maticonsearch.getIcon
 import io.github.husseinfo.maticonsearch.getIconByName
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CountsList(
-    items: List<CountModel>
+    items: List<CountModel>, updateUI: () -> Unit = {}
 ) {
     val context = LocalContext.current
     LazyColumn {
@@ -51,6 +62,25 @@ fun CountsList(
             Row(
                 Modifier
                     .padding(top = 10.dp, start = 20.dp, end = 20.dp)
+                    .combinedClickable(
+                        onClick = {
+                            val intent = Intent(context, AddItemActivity::class.java)
+                            intent.putExtra(EDIT_RECORD_ID, items[item].id)
+                            context.startActivity(intent)
+                        },
+                        onLongClick = {
+                            AlertDialog
+                                .Builder(context)
+                                .setTitle(R.string.confirm_delete)
+                                .setPositiveButton(R.string.delete) { _: DialogInterface?, _: Int ->
+                                    AppDatabase.getDb(context)?.countDAO()?.delete(items[item])
+                                    updateUI()
+                                }
+                                .setNegativeButton(R.string.dismiss) { _: DialogInterface?, _: Int -> }
+                                .create()
+                                .show()
+                        }
+                    )
             ) {
                 val icon = if (items[item].icon != null)
                     getIconByName(context, items[item].icon!!)
@@ -68,11 +98,7 @@ fun CountsList(
                     tint = if (isSystemInDarkTheme()) Color.LightGray else Color.Black,
                     contentDescription = icon.name
                 )
-                Column(Modifier.clickable {
-                    val intent = Intent(context, AddItemActivity::class.java)
-                    intent.putExtra(EDIT_RECORD_ID, items[item].id)
-                    context.startActivity(intent)
-                }) {
+                Column {
                     Text(
                         text = items[item].title,
                         style = Typography.titleSmall,
@@ -86,7 +112,6 @@ fun CountsList(
                 }
                 Spacer(modifier = Modifier.weight(1f))
 
-
                 if (items[item].list != null && items[item].list!!.isNotEmpty())
                     ListShape(item = items[item])
             }
@@ -99,14 +124,14 @@ fun ListShape(item: CountModel) {
     Box(
         modifier = Modifier
             .background(
-                color = Color.LightGray,
+                color = if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray,
                 shape = RoundedCornerShape(50)
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
             text = item.list ?: "",
-            color = Color.DarkGray,
+            color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
             style = Typography.titleSmall,
         )
     }
@@ -136,14 +161,14 @@ fun Header() {
 
 
 @Composable
-fun MainUI(items: List<CountModel>) {
+fun MainUI(items: List<CountModel>, updateUI: () -> Unit = {}) {
     val context = LocalContext.current
     AppTheme {
         Column {
             Header()
             Box(modifier = Modifier.fillMaxSize()) {
                 CountsList(
-                    items
+                    items, updateUI
                 )
                 FloatingActionButton(
                     onClick = {
@@ -154,12 +179,14 @@ fun MainUI(items: List<CountModel>) {
                             )
                         )
                     },
+                    containerColor = if (isSystemInDarkTheme()) Color.DarkGray else Color.LightGray,
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(16.dp)
+                        .padding(16.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Default.AddCircle,
+                        tint = Primary,
                         contentDescription = stringResource(id = R.string.add_item)
                     )
                 }

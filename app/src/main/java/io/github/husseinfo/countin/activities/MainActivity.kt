@@ -25,12 +25,7 @@ class MainActivity : ComponentActivity(), CoroutineScope by MainScope() {
 
     private fun updateUI() {
         setContent {
-            MainUI(AppDatabase.getDb(baseContext)!!.countDAO()?.all!!)
+            MainUI(AppDatabase.getDb(baseContext)!!.countDAO()?.all!!, updateUI = ::updateUI)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        AppDatabase.getDb(applicationContext)?.close()
     }
 }
