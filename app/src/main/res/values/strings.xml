@@ -25,4 +25,6 @@
     <string name="biometric_prompt">You can disable Authentication in app settings</string>
     <string name="use_fingerprint">Authenticate to continue</string>
     <string name="list">List (Optional)</string>
+    <string name="export">Export</string>
+    <string name="_import">Import</string>
 </resources>

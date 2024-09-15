@@ -27,10 +27,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -73,7 +69,10 @@ fun CountsList(
                                 .Builder(context)
                                 .setTitle(R.string.confirm_delete)
                                 .setPositiveButton(R.string.delete) { _: DialogInterface?, _: Int ->
-                                    AppDatabase.getDb(context)?.countDAO()?.delete(items[item])
+                                    AppDatabase
+                                        .getDb(context)
+                                        ?.countDAO()
+                                        ?.delete(items[item])
                                     updateUI()
                                 }
                                 .setNegativeButton(R.string.dismiss) { _: DialogInterface?, _: Int -> }

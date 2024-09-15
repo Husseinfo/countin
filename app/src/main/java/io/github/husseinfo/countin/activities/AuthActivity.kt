@@ -7,7 +7,6 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import io.github.husseinfo.countin.R
-import io.github.husseinfo.countin.isAuthEnabled
 import java.util.concurrent.Executor
 
 
@@ -25,7 +24,6 @@ class AuthActivity : AppCompatActivity() {
                     BiometricManager.Authenticators.BIOMETRIC_WEAK
                             or BiometricManager.Authenticators.BIOMETRIC_STRONG
                 ) == BiometricManager.BIOMETRIC_SUCCESS
-            && isAuthEnabled(baseContext)
         ) {
             executor = ContextCompat.getMainExecutor(this)
             biometricPrompt = BiometricPrompt(this, executor,

@@ -17,8 +17,8 @@ An Android Application that remembers your life events.
 - [x] Fingerprint authentication
 - [x] App Settings
 - [ ] Load more
-- [ ] Backup/Restore
-- [ ] Countdown items
+- [x] Import/Export
+- [x] Countdown items
 
 ## Android Dev
 
@@ -26,5 +26,6 @@ An Android Application that remembers your life events.
 - [x] ROOM
 - [x] Coroutines
 - [x] Material 3
+- [x] Compose
 - [ ] View binding
 - [ ] Testing

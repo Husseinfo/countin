@@ -17,8 +17,3 @@ fun isFirstRun(context: Context): Boolean {
     val sharedPref = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE)
     return sharedPref.getBoolean(APP_INTRO_FLAG, false)
 }
-
-fun isAuthEnabled(context: Context): Boolean {
-    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-    return preferences.getBoolean(APP_AUTH, true)
-}
